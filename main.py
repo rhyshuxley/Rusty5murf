@@ -6,7 +6,7 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
-  print('{0.user}.format(client) is ready!')
+  print('{0.user}'.format(client) + 'is ready!')
 
 @client.event
 async def on_message(message):
