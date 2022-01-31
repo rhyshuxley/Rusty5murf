@@ -1,5 +1,7 @@
+import os
 import discord
 
+TOKEN = os.environ['TOKEN']
 client = discord.Client()
 
 @client.event
@@ -11,5 +13,7 @@ async def on_message(message):
   if message.authro == client.user:
     return
 
-  if message.content.startswith('$hello')
+  if message.content.startswith('$hello'):
     await message.channel.send('Hey!')
+
+client.run(TOKEN)
