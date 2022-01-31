@@ -21,9 +21,7 @@ async def on_message(message):
   if message.author == client.user:
     return
 
-  if message.content.startswith('$hello'):
-    await message.channel.send('Hey!')
+  if message.content.startswith('$amc'):
+    await message.channel.send('$' + get_price())
 
 client.run(TOKEN)
-
-# https://api.twelvedata.com/price?symbol=AMC&apikey=APIKEY
