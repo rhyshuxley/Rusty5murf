@@ -3,13 +3,14 @@ import discord
 import requests
 import json
 import re
+from keep_alive import keep_alive
 
 TOKEN = os.environ['TOKEN']
 APIKEY = os.environ['APIKEY']
 client = discord.Client()
 
-def get_price():
-  response = requests.get('https://api.twelvedata.com/price?symbol=AMC&apikey=' + APIKEY)
+def get_price(symbol):
+  response = requests.get('https://api.twelvedata.com/price?symbol=' + symbol + '&apikey=' + APIKEY)
   data = json.loads(response.content)
   return(float(data['price']))
 
@@ -25,10 +26,20 @@ async def on_message(message):
   if message.content.startswith('$amc'):
     if '-s' in message.content:
       stocks = re.findall(r'\d+', message.content)
-      price = get_price() * int(stocks[0])
+      price = get_price('AMC') * int(stocks[0])
     else:
-      price = get_price()
+      price = get_price('AMC')
 
     await message.channel.send('$' + "{:.2f}".format(price))
 
+  if message.content.startswith('$gme'):
+    if '-s' in message.content:
+      stocks = re.findall(r'\d+', message.content)
+      price = get_price('GME') * int(stocks[0])
+    else:
+      price = get_price('GME')
+
+    await message.channel.send('$' + "{:.2f}".format(price))
+
+keep_alive()
 client.run(TOKEN)
