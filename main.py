@@ -1,8 +1,16 @@
 import os
 import discord
+import requests
+import json
 
 TOKEN = os.environ['TOKEN']
+APIKEY = os.environ['APIKEY']
 client = discord.Client()
+
+def get_price():
+  response = requests.get('https://api.twelvedata.com/price?symbol=AMC&apikey=' + APIKEY)
+  data = json.loads(response.content)
+  return(data['price'])
 
 @client.event
 async def on_ready():
@@ -17,3 +25,5 @@ async def on_message(message):
     await message.channel.send('Hey!')
 
 client.run(TOKEN)
+
+# https://api.twelvedata.com/price?symbol=AMC&apikey=APIKEY
